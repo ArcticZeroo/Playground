@@ -12,9 +12,9 @@
 		$input = trim($input);
 		$input = stripslashes($input);
 		$input = htmlspecialchars($input);
-		if($input.length() <= $minlength){
+		if($input.strlen() <= $minlength){
 			$error = "Your $type is too short. Minimum length is $minlength characters.";
-		}else if($input.length() >= $maxlength){
+		}else if($input.strlen() >= $maxlength){
 			$error = "Your $type is too long. Maximum length is $maxlength characters.";
 		}else{
 			return $input;
