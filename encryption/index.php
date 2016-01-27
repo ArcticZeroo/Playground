@@ -11,22 +11,17 @@
 	//Validate
 	function validate($input, $type, $minlength, $maxlength){
 		global $error;
-		if($input != ""){
-			$input = trim($input);
-			$input = stripslashes($input);
-			$input = htmlspecialchars($input);
-			if(strlen($input) < $minlength){
-				global $error;
-				$error = $error . "Your $type is too short, minimum length is $minlength characters. ";
-			}else if(strlen($input) > $maxlength){
-				global $error;
-				$error = $error . "Your $type is too long, maximum length is $maxlength characters. ";
-			}else{
-				return $input;
-			}
+		$input = trim($input);
+		$input = stripslashes($input);
+		$input = htmlspecialchars($input);
+		if(strlen($input) < $minlength){
+			global $error;
+			$error = $error . "Your $type is too short, minimum length is $minlength characters. ";
+		}else if(strlen($input) > $maxlength){
+			global $error;
+			$error = $error . "Your $type is too long, maximum length is $maxlength characters. ";
 		}else{
-				global $error;
-				$error = "Please enter a Username and Password. ";
+			return $input;
 		}
 	}
 	
@@ -46,24 +41,33 @@
 	
 	//Validate Information
 	if($_SERVER['REQUEST_METHOD'] == "POST"){
-		$username = $_POST["username"];
-		$password = $_POST["password"];
-		
-		$username = validate($username, "username", 4, 16);
-		$password = validate($password, "password", 8, 24);
-		
-		if($error == ""){
-			checkStupid($username, $password);
-		}
-		
-		//If both validate with no errors, debug only
-		if($error == ""){
-			echo "Validated password: " . $password;
-			echo "Validated username: " . $username;
+		if(!empty($_POST["username"]) && !empty($_POST["password"])){
+			$username = $_POST["username"];
+			$password = $_POST["password"];
+			
+			//Remove special characters and check if it meets password requirements
+			$username = validate($username, "username", 4, 16);
+			$password = validate($password, "password", 8, 24);
+			
+			//If it meets requirements, ensure it's not a stupid password
+			if($error == ""){
+				checkStupid($username, $password);
+			}
+			
+			//If both validate with no errors, debug only
+			if($error == ""){
+				echo "Validated password: " . $password;
+				echo "Validated username: " . $username;
+			}
+			
+		}else{
+			//If one is empty
+			global $error;
+			$error = $error . "Please enter a Username and Password. ";
 		}
 	}
 	
-	//Adds "Error:" if there is an existing error
+	//Adds "Error: " before the error message if there is an existing error
 	if($error != ""){
 		$error = "Error: " . $error;
 	}
