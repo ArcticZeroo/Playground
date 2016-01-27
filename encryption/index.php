@@ -28,6 +28,7 @@
 		$username = $_POST["username"];
 		$password = $_POST["password"];
 		validate($username, "username", 8, 24);
+		echo $error;
 	}
 ?>
 <html>
