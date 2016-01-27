@@ -1,7 +1,7 @@
 <?php
-	$error;
-	$username = "";
-	$password = "";
+	string $error;
+	$username = null;
+	$password = null;
 	$self = htmlspecialchars($_SERVER['PHP_SELF']);
 	$self = ltrim($self);
 	$self = rtrim($self);
@@ -9,17 +9,21 @@
 	
 	//Validate
 	function validate($input, $type, $maxlength, $minlength){
-		$input = trim($input);
-		$input = stripslashes($input);
-		$input = htmlspecialchars($input);
-		if(strlen($input) <= $minlength){
-			$error = "Your $type is too short. Minimum length is $minlength characters.";
-		}else if(strlen($input) >= $maxlength){
-			$error = "Your $type is too long. Maximum length is $maxlength characters.";
+		if($input != NULL){
+			$input = trim($input);
+			$input = stripslashes($input);
+			$input = htmlspecialchars($input);
+			if(strlen($input) <= $minlength){
+				$error = "Your $type is too short. Minimum length is $minlength characters.";
+			}else if(strlen($input) >= $maxlength){
+				$error = "Your $type is too long. Maximum length is $maxlength characters.";
+			}else{
+				return $input;
+				//DEBUG
+				$error = "$type works, validated $type: " . $input;
+			}
 		}else{
-			return $input;
-			//DEBUG
-			$error = "$type works, validated $type: " . $input;
+			$error = "Please enter a Username and Password."
 		}
 	}
 	
