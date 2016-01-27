@@ -42,7 +42,7 @@
 				<input type='password' name='password' placeholder='Password'><br>
 				<input type='submit' value='Submit'>
 			</form>
-			<div id="error"><?php if($error != ""){echo $error;} ?></div>
+			<div id="error"><?php echo $error; ?></div>
 		</div>
 	</body>
 </html>
