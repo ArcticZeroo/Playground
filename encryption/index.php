@@ -1,7 +1,7 @@
 <?php
-	string $error;
-	$username = null;
-	$password = null;
+	global $error = "";
+	$username = NULL;
+	$password = NULL;
 	$self = htmlspecialchars($_SERVER['PHP_SELF']);
 	$self = ltrim($self);
 	$self = rtrim($self);
