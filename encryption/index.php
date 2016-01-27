@@ -19,7 +19,7 @@
 		}else{
 			return $input;
 			//DEBUG
-			$error = "$type works, validated $type: " $input;
+			$error = "$type works, validated $type: " . $input;
 		}
 	}
 	
