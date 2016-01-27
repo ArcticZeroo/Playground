@@ -1,3 +1,6 @@
+<?php
+	$error;
+?>
 <html>
 	<head>
 		<title>Encryption Testing</title>
