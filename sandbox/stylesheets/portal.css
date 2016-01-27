@@ -1,0 +1,37 @@
+#portal{
+}
+#portal img{
+vertical-align: middle;
+animation-name: portalspin, portalglow;
+animation-iteration-count: infinite, infinite;
+animation-delay: 0s, 1s;
+animation-timing-function: linear, ease;
+animation-duration: 5s, 7s;
+margin-top: 180px;
+-webkit-filter: drop-shadow(#800080 0px 0px 5px);
+}
+#containerText{
+text-align: center;
+}
+@keyframes portalspin{
+	0%{
+		transform: rotate(0deg);
+	}
+	100%{
+		transform: rotate(360deg);
+	}
+}
+@keyframes portalglow{
+	0%{
+		-webkit-filter: drop-shadow(#800080 0px 0px 5px);
+	}
+	45%{
+		-webkit-filter: drop-shadow(#FF00F4 0px 0px 25px);
+	}
+	55%{
+		-webkit-filter: drop-shadow(#FF00F4 0px 0px 25px);
+	}
+	100%{
+		-webkit-filter: drop-shadow(#800080 0px 0px 5px);
+	}
+}

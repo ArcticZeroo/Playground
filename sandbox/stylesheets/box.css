@@ -1,0 +1,32 @@
+#box{
+width: 176px;
+height: 80px;
+border-radius: 3px;
+background-color: #2196F3;
+top: 200px;
+margin-left: auto;
+margin-right: auto;
+position: relative;
+transform: translateX(-150px);
+color: white;
+box-shadow: 0 0px 15px 0 rgba(0, 0, 0, 0.1);
+}
+#box.move{
+	animation-name: boxMove;
+	animation-duration: 5s;
+	animation-delay: 0s;
+}
+#box.start{
+	opacity: 0;
+	animation-delay: 2.5s;
+	animation-name: fade-in;
+	animation-duration: .5s;
+}
+#box-text{
+	top: 24px;
+	vertical-align: middle;
+	text-align: center;
+	position: relative;
+	font-size: 1.5em;
+	font-weight: bold;
+}
