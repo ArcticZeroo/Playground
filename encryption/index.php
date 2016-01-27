@@ -1,5 +1,5 @@
 <?php
-	$error = "";
+	$error;
 	$username = "";
 	$password = "";
 	$self = htmlspecialchars($_SERVER['PHP_SELF']);
@@ -28,7 +28,7 @@
 		$username = $_POST["username"];
 		$password = $_POST["password"];
 		validate($username, "username", 8, 24);
-		echo $error;
+		echo "Error: " $error;
 	}
 ?>
 <html>
