@@ -1,5 +1,6 @@
 <?php
-	global $error = "";
+	$error = "";
+	global $error;
 	$username = NULL;
 	$password = NULL;
 	$self = htmlspecialchars($_SERVER['PHP_SELF']);
@@ -8,31 +9,63 @@
 	$self = trim($self);
 	
 	//Validate
-	function validate($input, $type, $maxlength, $minlength){
-		if($input != NULL){
+	function validate($input, $type, $minlength, $maxlength){
+		global $error;
+		if($input != ""){
 			$input = trim($input);
 			$input = stripslashes($input);
 			$input = htmlspecialchars($input);
-			if(strlen($input) <= $minlength){
-				$error = "Your $type is too short. Minimum length is $minlength characters.";
-			}else if(strlen($input) >= $maxlength){
-				$error = "Your $type is too long. Maximum length is $maxlength characters.";
+			if(strlen($input) < $minlength){
+				global $error;
+				$error = $error . "Your $type is too short, minimum length is $minlength characters. ";
+			}else if(strlen($input) > $maxlength){
+				global $error;
+				$error = $error . "Your $type is too long, maximum length is $maxlength characters. ";
 			}else{
 				return $input;
-				//DEBUG
-				$error = "$type works, validated $type: " . $input;
 			}
 		}else{
-			$error = "Please enter a Username and Password."
+				global $error;
+				$error = "Please enter a Username and Password. ";
 		}
 	}
 	
-	//GET
+	//Check if the password is stupid
+	function checkStupid($username, $password){
+		//Let's give them benefit of the doubt.
+		$stupid = false;
+		
+		//Check for stupidity
+		if($stupid == false && $username == $password){
+			$stupid = true;
+			global $error;
+			$error = "Your username may not be the same as your password.";
+		}
+		//Leaving this blank for now, may eventually add more stupid checks
+	}
+	
+	//Validate Information
 	if($_SERVER['REQUEST_METHOD'] == "POST"){
 		$username = $_POST["username"];
 		$password = $_POST["password"];
-		validate($username, "username", 8, 24);
-		echo "Error: " . $error;
+		
+		$username = validate($username, "username", 4, 16);
+		$password = validate($password, "password", 8, 24);
+		
+		if($error == ""){
+			checkStupid($username, $password);
+		}
+		
+		//If both validate with no errors, debug only
+		if($error == ""){
+			echo "Validated password: " . $password;
+			echo "Validated username: " . $username;
+		}
+	}
+	
+	//Adds "Error:" if there is an existing error
+	if($error != ""){
+		$error = "Error: " . $error;
 	}
 ?>
 <html>
