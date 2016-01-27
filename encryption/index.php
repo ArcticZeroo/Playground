@@ -37,7 +37,7 @@
 	</head>
 	<body>
 		<div id="content">
-			<form action="<?php echo ; ?>" method="post">
+			<form action="<?php echo $self; ?>" method="post">
 				<input type='text' name='username' placeholder='Username'><br>
 				<input type='password' name='password' placeholder='Password'><br>
 				<input type='submit' value='Submit'>
