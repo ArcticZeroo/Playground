@@ -15,6 +15,7 @@
 		$input = rtrim($input);
 		$input = stripslashes($input);
 		$input = htmlspecialchars($input);
+		return $input;
 	}
 	
 	//Validate
