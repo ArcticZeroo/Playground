@@ -8,12 +8,19 @@
 	$self = rtrim($self);
 	$self = trim($self);
 	
-	//Validate
-	function validate($input, $type, $minlength, $maxlength){
-		global $error;
+	//Trim
+	function trimInput($input){
 		$input = trim($input);
+		$input = ltrim($input);
+		$input = rtrim($input);
 		$input = stripslashes($input);
 		$input = htmlspecialchars($input);
+	}
+	
+	//Validate
+	function validate($input, $type, $minlength, $maxlength){
+		$input = trimInput($input);
+		global $error;
 		if(strlen($input) < $minlength){
 			global $error;
 			$error = $error . "Your $type is too short, minimum length is $minlength characters. ";
@@ -59,7 +66,11 @@
 				echo "Validated password: " . $password;
 				echo "Validated username: " . $username;
 			}
-			
+			//Hash it
+			$password = md5($password);
+			echo $password . "<br>";
+			$password = sha1($password);
+			echo $password . "<br>";
 		}else{
 			//If one is empty
 			global $error;
