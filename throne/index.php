@@ -2,7 +2,7 @@
 	<head>
 		<title>Nuclear Throne Version Repository</title>
 		<script src="main.js"></script>
-		<link rel="stylesheet" type="text/css" href="content.css"/>
+		<link rel="stylesheet" type="text/css" href="stylesheets/content.css"/>
 		<link href='https://fonts.googleapis.com/css?family=Roboto:400,700' rel='stylesheet' type='text/css'>
 		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 		<link rel="icon" href="images/favicon.ico"/>
