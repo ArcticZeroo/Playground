@@ -72,18 +72,36 @@
 			$username = validate($username, "username", 4, 16);
 			$password = validate($password, "password", 8, 24);
 			
-			//If it meets requirements, ensure it's not a stupid password
-			if($error == ""){
-				checkStupid($username, $password);
+			//Connect to SQL Server
+			require $_SERVER['ROOT_DIRECTORY'] . "/sql.php";
+			
+			//Query if account already exists
+			$exists = false;
+			$existsSQL = "SELECT username FROM account WHERE username = $username";
+			$existsQuery = mysqli_query($connect, $existsSQL);
+			$existsNumRows = mysqli_num_rows($existsQuery);
+			if($existsNumRows > 0){
+				$exists = true;
 			}
 			
-			//If both validate with no errors, debug only
-			if($error == ""){
-				echo "Validated password: " . $password;
-				echo "Validated username: " . $username;
+			//
+			
+			if(!exists){
+				//If it meets requirements, ensure it's not a stupid password
+				if($error == ""){
+					checkStupid($username, $password);
+				}
+				
+				//If both validate with no errors, debug only
+				if($error == ""){
+					//Encrypt it!
+					$encryptedPassword = encrypt($password);
+					$insertSQL = "INSERT INTO account (username, password) VALUES ($username, $password)";
+				}
+			}else{
+				global $error;
+				$error = $error . "Account already exists. "
 			}
-			//Encrypt it!
-			encrypt($password);
 		}else{
 			//If one is empty
 			global $error;
@@ -93,7 +111,7 @@
 	
 	//Adds "Error: " before the error message if there is an existing error
 	if($error != ""){
-		$error = "Error: " . $error;
+		$error = "<b>ERROR:</b> " . $error;
 	}
 ?>
 <html>
