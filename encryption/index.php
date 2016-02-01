@@ -15,6 +15,7 @@
 		$input = rtrim($input);
 		$input = stripslashes($input);
 		$input = htmlspecialchars($input);
+		return $input;
 	}
 	
 	//Validate
@@ -41,13 +42,28 @@
 		if($stupid == false && $username == $password){
 			$stupid = true;
 			global $error;
-			$error = "Your username may not be the same as your password.";
+			$error = $error . "Your username may not be the same as your password. ";
 		}
 		//Leaving this blank for now, may eventually add more stupid checks
 	}
 	
+	//Encrypt Input
+	function encrypt($input){
+		$input = md5($input);
+		$input = sha1($input);
+		$hash = password_hash($input);
+		if($hash != false){
+			return $hash;			
+		}else{
+			global $error;
+			$error = $error . "Password failed to encrypt. "
+		}
+		//Debug
+		echo password_get_info($input);
+	}
+	
 	//Validate Information
-	if($_SERVER['REQUEST_METHOD'] == "POST"){
+	if($_SERVER['REQUEST_METHOD'] == "POST" && $_POST["type"] == "SIGNUP"){
 		if(!empty($_POST["username"]) && !empty($_POST["password"])){
 			$username = $_POST["username"];
 			$password = $_POST["password"];
@@ -66,11 +82,8 @@
 				echo "Validated password: " . $password;
 				echo "Validated username: " . $username;
 			}
-			//Hash it
-			$password = md5($password);
-			echo $password . "<br>";
-			$password = sha1($password);
-			echo $password . "<br>";
+			//Encrypt it!
+			encrypt($password);
 		}else{
 			//If one is empty
 			global $error;
@@ -93,7 +106,8 @@
 			<form action="<?php echo $self; ?>" method="post">
 				<input type='text' name='username' placeholder='Username'><br>
 				<input type='password' name='password' placeholder='Password'><br>
-				<input type='submit' value='Submit'>
+				<input type='hidden' value='signup'>
+				<input type='submit' value='Sign Up'>
 			</form>
 			<div id="error"><?php echo $error; ?></div>
 		</div>
