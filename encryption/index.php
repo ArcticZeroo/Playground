@@ -74,13 +74,13 @@
 			
 			//Connect to SQL Server
 				$servername="localhost";
-				$username="root";
-				$password="password";
-				$database="$database";
+				$serverusername="root";
+				$serverpassword="password";
+				$database="login";
 				$connectionStatus = false;
 								
 				//Connect
-				$connect = new mysqli($servername, $username, $password, $database);
+				$connect = new mysqli($servername, $serverusername, $serverpassword, $database);
 
 				//Check Connection
 				if (mysqli_connect_errno()) {
