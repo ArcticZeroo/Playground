@@ -76,6 +76,10 @@
 			require($_SERVER['DOCUMENT_ROOT'] . "/playground/encryption/sql.php");
 			sqlConnect("login");
 			
+			//Make $connect global
+			global $connect;
+			global $connectionStatus;
+			
 			//Query if account already exists
 			$exists = false;
 			$existsSQL = "SELECT username FROM account WHERE username = $username";
