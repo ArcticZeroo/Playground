@@ -73,12 +73,23 @@
 			$password = validate($password, "password", 8, 24);
 			
 			//Connect to SQL Server
-			require($_SERVER['DOCUMENT_ROOT'] . "/playground/encryption/sql.php");
-			sqlConnect("login");
-			
-			//Make $connect global
-			global $connect;
-			global $connectionStatus;
+				$servername="localhost";
+				$username="root";
+				$password="password";
+				$database="$database";
+				$connectionStatus = false;
+								
+				//Connect
+				$connect = new mysqli($servername, $username, $password, $database);
+
+				//Check Connection
+				if (mysqli_connect_errno()) {
+					echo "<b>ERROR:</b> Failed to connect to MySQL Server.";
+				}
+				else{
+					$connectionStatus = true;
+				}
+			//End SQL Code
 			
 			//Query if account already exists
 			$exists = false;
