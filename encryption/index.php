@@ -56,14 +56,14 @@
 			return $hash;			
 		}else{
 			global $error;
-			$error = $error . "Password failed to encrypt. "
+			$error = $error . "Password failed to encrypt. ";
 		}
 		//Debug
 		echo password_get_info($input);
 	}
 	
 	//Validate Information
-	if($_SERVER['REQUEST_METHOD'] == "POST" && $_POST["type"] == "SIGNUP"){
+	if($_SERVER['REQUEST_METHOD'] == "POST"){
 		if(!empty($_POST["username"]) && !empty($_POST["password"])){
 			$username = $_POST["username"];
 			$password = $_POST["password"];
@@ -73,7 +73,8 @@
 			$password = validate($password, "password", 8, 24);
 			
 			//Connect to SQL Server
-			require $_SERVER['ROOT_DIRECTORY'] . "/sql.php";
+			require($_SERVER['DOCUMENT_ROOT'] . "/playground/encryption/sql.php");
+			sqlConnect("login");
 			
 			//Query if account already exists
 			$exists = false;
@@ -86,7 +87,7 @@
 			
 			//
 			
-			if(!exists){
+			if(!$exists){
 				//If it meets requirements, ensure it's not a stupid password
 				if($error == ""){
 					checkStupid($username, $password);
@@ -100,7 +101,7 @@
 				}
 			}else{
 				global $error;
-				$error = $error . "Account already exists. "
+				$error = $error . "Account already exists. ";
 			}
 		}else{
 			//If one is empty
@@ -124,7 +125,6 @@
 			<form action="<?php echo $self; ?>" method="post">
 				<input type='text' name='username' placeholder='Username'><br>
 				<input type='password' name='password' placeholder='Password'><br>
-				<input type='hidden' value='signup'>
 				<input type='submit' value='Sign Up'>
 			</form>
 			<div id="error"><?php echo $error; ?></div>

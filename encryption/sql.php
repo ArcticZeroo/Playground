@@ -1,6 +1,5 @@
 <?php 
-error_reporting(0);
-
+//error_reporting(0);
 function sqlConnect($database){
 	$servername="localhost";
 	$username="root";
