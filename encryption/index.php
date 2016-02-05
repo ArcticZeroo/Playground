@@ -51,15 +51,13 @@
 	function encrypt($input){
 		$input = md5($input);
 		$input = sha1($input);
-		$hash = password_hash($input);
+		$hash = password_hash($input,PASSWORD_BCRYPT);
 		if($hash != false){
 			return $hash;			
 		}else{
 			global $error;
 			$error = $error . "Password failed to encrypt. ";
 		}
-		//Debug
-		echo password_get_info($input);
 	}
 	
 	//Validate Information
@@ -73,10 +71,11 @@
 			$password = validate($password, "password", 8, 24);
 			
 			//Connect to SQL Server
-				$servername="localhost";
-				$serverusername="root";
-				$serverpassword="password";
-				$database="login";
+				$servername = "localhost";
+				$serverusername = "root";
+				$serverpassword = "!#!superultrash@@n7";
+				$database = "login";
+				$table = "account";
 				$connectionStatus = false;
 								
 				//Connect
@@ -95,8 +94,8 @@
 			$exists = false;
 			$existsSQL = "SELECT username FROM account WHERE username = $username";
 			$existsQuery = mysqli_query($connect, $existsSQL);
-			$existsNumRows = mysqli_num_rows($existsQuery);
-			if($existsNumRows > 0){
+			if(!$existsQuery){
+			}else{
 				$exists = true;
 			}
 			
@@ -111,8 +110,10 @@
 				//If both validate with no errors, debug only
 				if($error == ""){
 					//Encrypt it!
+					global $username;
 					$encryptedPassword = encrypt($password);
-					$insertSQL = "INSERT INTO account (username, password) VALUES ($username, $password)";
+					echo $encryptedPassword . ", " . $username;
+					$insertSQL = "INSERT INTO `account` (`id`, `username`, `password`) VALUES (NULL, '$username', '$encryptedPassword')";
 				}
 			}else{
 				global $error;
