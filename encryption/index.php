@@ -73,7 +73,7 @@
 			//Connect to SQL Server
 				$servername = "localhost";
 				$serverusername = "root";
-				$serverpassword = "!#!superultrash@@n7";
+				$serverpassword = "password";
 				$database = "login";
 				$table = "account";
 				$connectionStatus = false;
