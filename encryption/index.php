@@ -1,4 +1,8 @@
 <?php
+//error_reporting(0);
+//error_reporting(E_ALL);
+//ini_set('display_errors', 1);
+
 	$error = "";
 	global $error;
 	$username = NULL;
@@ -43,6 +47,10 @@
 			$stupid = true;
 			global $error;
 			$error = $error . "Your username may not be the same as your password. ";
+		}else if($stupid == false && $password == "password"){
+			$stupid = true;
+			global $error;
+			$error = $error . "Your password shouldn't be 'password'. That's a stupid password.";
 		}
 		//Leaving this blank for now, may eventually add more stupid checks
 	}
@@ -83,7 +91,8 @@
 
 				//Check Connection
 				if (mysqli_connect_errno()) {
-					echo "<b>ERROR:</b> Failed to connect to MySQL Server.";
+					global $error;
+					$error = $error . "Failed to connect to MySQL Server. ";
 				}
 				else{
 					$connectionStatus = true;
@@ -92,15 +101,15 @@
 			
 			//Query if account already exists
 			$exists = false;
-			$existsSQL = "SELECT username FROM account WHERE username = $username";
+			$existsSQL = "SELECT * FROM `account` WHERE `username` = '$username';";
 			$existsQuery = mysqli_query($connect, $existsSQL);
-			if(!$existsQuery){
-			}else{
-				$exists = true;
+			if($existsQuery != false){
+				if(mysqli_num_rows($existsQuery) > 0){
+					$exists = true;
+				}
 			}
-			
-			//
-			
+
+			//Only run this if the username is not already in the database
 			if(!$exists){
 				//If it meets requirements, ensure it's not a stupid password
 				if($error == ""){
@@ -112,8 +121,9 @@
 					//Encrypt it!
 					global $username;
 					$encryptedPassword = encrypt($password);
-					echo $encryptedPassword . ", " . $username;
-					$insertSQL = "INSERT INTO `account` (`id`, `username`, `password`) VALUES (NULL, '$username', '$encryptedPassword')";
+					$insertSQL = "INSERT INTO `account` (`id`, `username`, `password`) VALUES (NULL, '$username', '$encryptedPassword');";
+					global $connect;
+					$insertAccount = mysqli_query($connect, $insertSQL);
 				}
 			}else{
 				global $error;
