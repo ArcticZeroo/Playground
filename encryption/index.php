@@ -81,7 +81,8 @@
 			//Connect to SQL Server
 				$servername = "localhost";
 				$serverusername = "root";
-				$serverpassword = "password";
+				$sqlpass = file_get_contents('C:sqlpass.txt');
+				$serverpassword = "$sqlpass";
 				$database = "login";
 				$table = "account";
 				$connectionStatus = false;
